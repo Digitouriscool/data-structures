@@ -84,7 +84,6 @@ int LinearSearch(struct Array *arr, int key)
     return -1;
 }
 
-
 int BinarySearch(struct Array arr, int key)
 {
     int low, mid, high;
@@ -121,28 +120,103 @@ int RBinSearch(int a[], int low, int high, int key)
     return -1;
 }
 
+int Get(struct Array arr, int index)
+{
+    if (index >= 0 && index < arr.length)
+        return arr.A[index];
+    return - 1;
+}
+
+void Set(struct Array *arr, int index, int x)
+{
+    if (index >= 0 && index < arr->length)
+        arr->A[index] = x;
+}
+
+int Max(struct Array arr)
+{
+    int max = arr.A[0];
+    int i;
+
+    for (i = 1; i < arr.length; i++) {
+        if (arr.A[i] > max)
+            max = arr.A[i];
+    }
+
+    return max;
+        
+}
+
+int Min(struct Array arr)
+{
+    int min = arr.A[0];
+    int i;
+
+    for (i = 1; i < arr.length; i++) {
+        if (arr.A[i] < min)
+            min = arr.A[i];
+    }
+
+    return min;
+}
+
+int Sum(struct Array arr)
+{
+    int sum = 0;
+    int i;
+
+    for (i = 0; i < arr.length; i++)
+        sum += arr.A[i];
+
+    return sum;
+}
+
+float Avg(struct Array arr)
+{
+    return (float) Sum(arr) / arr.length;
+}
+
 int main()
 {
     struct Array arr = {{2, 3, 4, 5, 6}, 10, 5};
     int n, i;
 
     // Append function
-    // Append(&arr, 10);
+    Append(&arr, 10);
 
     //Insert function
-    // Insert(&arr, 0, 10);
+    Insert(&arr, 0, 10);
 
     // Delete function
-    // printf("%d\n", Delete(&arr, 4));
+    printf("%d\n", Delete(&arr, 4));
 
     // Linear Search function
-    // printf("%d\n", LinearSearch(&arr, 4));
+    printf("%d\n", LinearSearch(&arr, 4));
 
     // Binary Search function
     printf("%d\n", BinarySearch(arr, 4));
 
     // Recursive Binary Search function
     printf("%d\n", RBinSearch(arr.A, 0, arr.length, 9));
+
+
+    // Get function
+    printf("%d\n", Get(arr, 2));
+
+    // Set function
+    Set(&arr, 0, 15);
+    
+    // Max function
+    printf("%d\n", Max(arr));
+
+    // Min function
+    printf("%d\n", Min(arr));
+
+    // Sum function
+    printf("%d\n", Sum(arr));
+
+    // Average function
+    printf("%f\n", Sum(arr));
 
     Display(arr);
         
