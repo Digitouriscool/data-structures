@@ -359,7 +359,7 @@ int main()
     arr1.A = (int *) malloc(arr1.size * sizeof(int));
 
     do {
-        printf("Menu\n");
+    printf("Menu\n");
     printf("1. Insert\n");
     printf("2. Delete\n");
     printf("3. Search\n");
