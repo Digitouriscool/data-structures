@@ -166,12 +166,37 @@ struct Node * RSearch(struct Node *p, int key)
     return RSearch(p->next, key);
 }
 
+void Insert(struct Node *p, int index, int x)
+{
+    struct Node *t;
+    int i;
+
+    if (index < 0 || index > count(p))
+        return;
+    t = (struct Node *) malloc(sizeof(struct Node));
+    t->data = x;
+
+    if (index == 0)
+    {
+        t->next = first;
+        first = t;
+    }
+    else 
+    {
+        for (i = 0; i < index - 1; i++)
+            p = p->next;
+        t->next = p->next;
+        p->next = t;
+    }
+    
+}
+
 int main()
 {
     struct Node *temp;
-    int A[]= {3, 5, 7, 10, 25, 8, 32, 2};
+    int A[]= {3, 5, 7};
 
-    create(A, 8);
+    create(A, 3);
 
     // iterative display
     Display(first);
@@ -217,9 +242,14 @@ int main()
     // recursive search
     temp = RSearch(first, 27);
     if (temp)
-        printf("\nKey is Found %d", temp->data);
+        printf("\nKey is Found %d\n", temp->data);
     else
-        printf("\nKey is not found");
+        printf("\nKey is not found\n");
 
+    // insert
+    Insert(first, 0, 10);
+    Insert(first, 3, 10);
+    Insert(first, 8, 10);
+    Display(first);
     return 0 ;
 }
