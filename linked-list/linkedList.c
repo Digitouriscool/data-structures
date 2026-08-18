@@ -191,12 +191,41 @@ void Insert(struct Node *p, int index, int x)
     
 }
 
+void SortedInsert(struct Node *p, int x)
+{
+    struct Node *t, *q = NULL;
+    t = (struct Node *) malloc(sizeof(struct Node));
+    t->data = x;
+    t->next = NULL;
+
+    if (first == NULL)
+        first = t;
+    else
+    {
+        while (p && p->data < x)
+        {
+            q = p;
+            p = p->next;
+        }
+        if (p == first)
+        {
+            t-> next = first;
+            first = t;
+        }
+        else 
+        {
+            t->next = q->next;
+            q->next = t;
+        }
+    }
+}
+
 int main()
 {
     struct Node *temp;
-    int A[]= {3, 5, 7};
+    int A[]= {10, 20, 30, 40, 50};
 
-    create(A, 3);
+    create(A, 5);
 
     // iterative display
     Display(first);
@@ -247,9 +276,17 @@ int main()
         printf("\nKey is not found\n");
 
     // insert
-    Insert(first, 0, 10);
-    Insert(first, 3, 10);
-    Insert(first, 8, 10);
+    // Insert(first, 0, 10);
+    // Insert(first, 3, 10);
+    // Insert(first, 8, 10);
+    // Display(first);
+
+    // sorted insert
+    SortedInsert(first, 35);
     Display(first);
+    printf("\n\n");
+    
+
+
     return 0 ;
 }
