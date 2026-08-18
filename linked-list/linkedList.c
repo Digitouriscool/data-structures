@@ -139,7 +139,7 @@ int RMin(struct Node *p)
 
 struct Node * LSearch(struct Node *p, int key)
 {
-    struct Node *q;
+    struct Node *q = NULL;
 
     while (p != NULL)
     {
@@ -220,6 +220,37 @@ void SortedInsert(struct Node *p, int x)
     }
 }
 
+int Delete(struct Node *p, int index)
+{
+    struct Node *q;
+    int x = -1, i;
+
+    if (index < 1 || index > count(p))
+        return -1;
+
+    // first node
+    if (index == 1)
+    {
+        q = first;
+        x = first->data;
+        first = first->next;
+        free(q);
+        return x;
+    }
+    else
+    {
+        for (i = 0; i < index - 1; i++)
+        {
+            q = p;
+            p = p->next;
+        }
+        q->next = p->next;
+        x = p->data;
+        free(p);
+        return x;
+    }
+}
+
 int main()
 {
     struct Node *temp;
@@ -276,17 +307,18 @@ int main()
         printf("\nKey is not found\n");
 
     // insert
-    // Insert(first, 0, 10);
-    // Insert(first, 3, 10);
-    // Insert(first, 8, 10);
-    // Display(first);
+    Insert(first, 0, 10);
+    Insert(first, 3, 10);
+    Insert(first, 8, 10);
+    Display(first);
 
     // sorted insert
     SortedInsert(first, 35);
     Display(first);
     printf("\n\n");
-    
 
+    // delete
+    printf("Deleted Element %d\n", Delete(first, 8));
 
     return 0 ;
 }
