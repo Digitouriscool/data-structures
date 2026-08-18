@@ -137,8 +137,38 @@ int RMin(struct Node *p)
     else return p->data;
 }
 
+struct Node * LSearch(struct Node *p, int key)
+{
+    struct Node *q;
+
+    while (p != NULL)
+    {
+        if (key == p->data)
+        {
+            // move to front if found
+            q->next = p->next;
+            p->next = first;
+            first = p;
+            return p;
+        }
+        q = p;
+        p = p->next;
+    }
+    return NULL;
+}
+
+struct Node * RSearch(struct Node *p, int key)
+{
+    if (p == NULL)
+        return NULL;
+    if (key == p->data)
+        return p;
+    return RSearch(p->next, key);
+}
+
 int main()
 {
+    struct Node *temp;
     int A[]= {3, 5, 7, 10, 25, 8, 32, 2};
 
     create(A, 8);
@@ -170,8 +200,26 @@ int main()
     // iterative min
     printf("\nMin is %d", Min(first)); 
 
-    // recursive max
+    // recursive min
     printf("\nMin is %d", RMin(first)); 
+
+    // linear search
+    temp = LSearch(first, 25);
+    temp = LSearch(first, 8);
+    if (temp)
+        printf("\nKey is Found %d\n", temp->data);
+    else
+        printf("\nKey is not found\n");
+
+    // display
+    Display(first);
+
+    // recursive search
+    temp = RSearch(first, 27);
+    if (temp)
+        printf("\nKey is Found %d", temp->data);
+    else
+        printf("\nKey is not found");
 
     return 0 ;
 }
