@@ -251,6 +251,20 @@ int Delete(struct Node *p, int index)
     }
 }
 
+int isSorted(struct Node *p)
+{
+    int x = -65536;
+
+    while (p != NULL)
+    {
+        if (p->data < x)
+            return 0;
+        x = p->data;
+        p = p->next;
+    }
+    return 1;
+}
+
 int main()
 {
     struct Node *temp;
@@ -319,6 +333,16 @@ int main()
 
     // delete
     printf("Deleted Element %d\n", Delete(first, 8));
+
+    // isSorted
+    if (isSorted(first))
+    {
+        printf("Sorted\n");
+    }
+    else 
+    {
+        printf("Not Sorted\n");
+    }
 
     return 0 ;
 }
