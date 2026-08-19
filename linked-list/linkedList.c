@@ -265,6 +265,26 @@ int isSorted(struct Node *p)
     return 1;
 }
 
+void RemoveDuplicate(struct Node *p)
+{
+    struct Node *q = p->next;
+
+    while(q != NULL)
+    {
+        if (p->data != q->data)
+        {
+            p = q;
+            q = q->next;
+        }
+        else
+        {
+            p->next = q->next;
+            free(q);
+            q = p->next;
+        }
+    }
+}
+
 int main()
 {
     struct Node *temp;
@@ -343,6 +363,14 @@ int main()
     {
         printf("Not Sorted\n");
     }
+
+    // remove duplicate from sorted linked list
+    int B[]= {10, 10, 10, 20, 20, 20, 30, 40, 40, 40, 50};
+
+    create(B, 11);
+    RemoveDuplicate(first);
+    Display(first);
+    printf("\n\n");
 
     return 0 ;
 }
