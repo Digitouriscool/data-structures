@@ -6,7 +6,7 @@ struct Node
 {
     int data;
     struct Node *next;
-} *first = NULL;
+} *first = NULL, *second = NULL, *third = NULL;
 
 void create(int A[], int n)
 {
@@ -20,6 +20,29 @@ void create(int A[], int n)
     first->data = A[0];
     first->next = NULL;
     last = first;
+
+    for (i = 1; i < n; i++)
+    {
+        t = (struct Node *)malloc(sizeof(struct Node));
+        t->data = A[i];
+        t->next = NULL;
+        last->next = t;
+        last = t;
+    }
+}
+
+void create2(int A[], int n)
+{
+    int i;
+    struct Node *t, *last;
+
+    if (n <= 0)
+        return;
+
+    second = (struct Node *)malloc(sizeof(struct Node));
+    second->data = A[0];
+    second->next = NULL;
+    last = second;
 
     for (i = 1; i < n; i++)
     {
@@ -394,6 +417,51 @@ void Reverse3(struct Node *q, struct Node *p)
     }
 }
 
+void Concat(struct Node *p, struct Node *q)
+{
+    third = p;
+    
+    while (p->next != NULL)
+        p = p->next;
+    p->next = q;
+}
+
+void Merge(struct Node *p, struct Node *q)
+{
+    struct Node *last;
+    if (p->data < q->data)
+    {
+        third = last = p;
+        p = p->next;
+        third->next = NULL;
+    }
+    else 
+    {
+        third = last = q;
+        q = q->next;
+        third->next = NULL;
+    }
+    while (p && q)
+    {
+        if (p->data < q->data)
+        {
+            last->next = p;
+            last = p;
+            p = p->next;
+            last->next = NULL;
+        }
+        else
+        {
+            last->next = q;
+            last = q;
+            q = q->next;
+            last->next = NULL;
+        }
+    }
+
+}
+
+
 int main()
 {
     struct Node *temp;
@@ -485,6 +553,17 @@ int main()
     Display(first);
 
     FreeList(first);
+    
+
+    // Concat
+    int D[] = {1, 2, 3, 4, 5};
+    create2(D, 5);
+
+    Concat(first, second);
+    printf("Concatenated\n");
+    Display(third);
+    printf("\n\n");
+
 
     return 0;
 }
