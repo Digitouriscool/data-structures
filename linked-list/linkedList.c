@@ -75,6 +75,7 @@ void Display(struct Node *p)
         printf("%d ", p->data);
         p = p->next;
     }
+
     printf("\n");
 }
 
@@ -302,6 +303,7 @@ int Delete(struct Node *p, int index)
         x = first->data;
         first = first->next;
         free(q);
+
         return x;
     }
     else
@@ -420,27 +422,30 @@ void Reverse3(struct Node *q, struct Node *p)
 void Concat(struct Node *p, struct Node *q)
 {
     third = p;
-    
+
     while (p->next != NULL)
         p = p->next;
+
     p->next = q;
 }
 
 void Merge(struct Node *p, struct Node *q)
 {
     struct Node *last;
+
     if (p->data < q->data)
     {
         third = last = p;
         p = p->next;
         third->next = NULL;
     }
-    else 
+    else
     {
         third = last = q;
         q = q->next;
         third->next = NULL;
     }
+
     while (p && q)
     {
         if (p->data < q->data)
@@ -459,15 +464,47 @@ void Merge(struct Node *p, struct Node *q)
         }
     }
 
+    if (p)
+        last->next = p;
+
+    if (q)
+        last->next = q;
 }
 
+int isLoop(struct Node *f)
+{
+    struct Node *p, *q;
+
+    p = q = first;
+
+    do
+    {
+        p = p->next;
+        q = q->next;
+        q = q ? q->next : q;
+
+    } while (p && q && p != q);
+
+    if (p == q)
+        return 1;
+    else
+        return 0;
+}
 
 int main()
 {
+    struct Node *t1, *t2;
     struct Node *temp;
+
     int A[] = {10, 20, 30, 40, 50};
 
     create(A, 5);
+
+    t1 = first->next->next;
+    t2 = first->next->next->next->next;
+    t2->next = NULL;
+
+    printf("%d\n", isLoop(first));
 
     printf("Original list:\n");
     Display(first);
@@ -506,15 +543,20 @@ int main()
         printf("\nKey is not found\n");
 
     printf("\nInsert examples:\n");
+
     Insert(first, 0, 5);
     Insert(first, 3, 25);
+
     Display(first);
 
     printf("\nSorted insert example:\n");
+
     SortedInsert(first, 35);
+
     Display(first);
 
     printf("\nDeleted Element: %d\n", Delete(first, 4));
+
     Display(first);
 
     if (isSorted(first))
@@ -528,7 +570,14 @@ int main()
        Remove duplicates example.
        RemoveDuplicate() works correctly on a sorted linked list.
     */
-    int B[] = {10, 10, 10, 20, 20, 20, 30, 40, 40, 40, 50};
+
+    int B[] = {
+        10, 10, 10,
+        20, 20, 20,
+        30,
+        40, 40, 40,
+        50
+    };
 
     create(B, 11);
 
@@ -553,17 +602,32 @@ int main()
     Display(first);
 
     FreeList(first);
-    
 
-    // Concat
+    /*
+       Concatenation example
+
+       first was set to NULL by FreeList(), so both
+       lists must be created before calling Concat().
+    */
+
+    int C[] = {10, 20, 30, 40, 50};
     int D[] = {1, 2, 3, 4, 5};
+
+    create(C, 5);
     create2(D, 5);
 
-    Concat(first, second);
-    printf("Concatenated\n");
-    Display(third);
-    printf("\n\n");
+    printf("\nFirst list:\n");
+    Display(first);
 
+    printf("Second list:\n");
+    Display(second);
+
+    Concat(first, second);
+
+    printf("Concatenated:\n");
+    Display(third);
+
+    printf("\n");
 
     return 0;
 }
