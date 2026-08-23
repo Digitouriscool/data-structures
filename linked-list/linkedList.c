@@ -485,7 +485,7 @@ int isLoop(struct Node *f)
 
     } while (p && q && p != q);
 
-    if (p == q)
+    if (p == q) 
         return 1;
     else
         return 0;
