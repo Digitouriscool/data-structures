@@ -51,12 +51,43 @@ int Length(struct Node *p)
     return len;
 }
 
+int Delete(struct Node *p, int index)
+{
+    struct Node *q;
+    int i, x = - 1;
+
+    if (index < 1 || index > Length(p))
+        return -1;
+
+    if (index == 1)
+    {
+        first = first->next;
+        if (first)
+            first->prev = NULL;
+        x = p->data;
+        free(p);
+    }
+    else
+    {
+        for (i = 0; i < index - 1; i++)
+            p = p->next;
+        p->prev->next = p->next;
+        if (p->next)
+            p->next->prev = p->prev;
+        x = p->data;
+        free(p);
+    }
+    return x;
+}
+
 int main()
 {
     int A[] = {10, 20, 30, 40, 50};
     create(A, 5);
     printf("\nLength is: %d\n", Length(first));
 
+    Display(first);
+    Delete(first, 1);
     Display(first);
 
     return 0;
