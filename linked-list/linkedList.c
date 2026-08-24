@@ -198,10 +198,6 @@ struct Node *LSearch(struct Node *p, int key)
     {
         if (key == p->data)
         {
-            /*
-               Move to front only if the found node
-               is not already the first node.
-            */
             if (q != NULL)
             {
                 q->next = p->next;
@@ -475,17 +471,21 @@ int isLoop(struct Node *f)
 {
     struct Node *p, *q;
 
-    p = q = first;
+    if (f == NULL)
+        return 0;
+
+    p = q = f;
 
     do
     {
         p = p->next;
+
         q = q->next;
         q = q ? q->next : q;
 
     } while (p && q && p != q);
 
-    if (p == q) 
+    if (p == q)
         return 1;
     else
         return 0;
@@ -500,13 +500,34 @@ int main()
 
     create(A, 5);
 
+    /*
+       Loop detection example
+
+       t1 points to 30
+       t2 points to 50
+
+       Making 50 point back to 30 creates:
+
+       10 -> 20 -> 30 -> 40 -> 50
+                   ^              |
+                   |______________|
+    */
+
     t1 = first->next->next;
     t2 = first->next->next->next->next;
+
+    t2->next = t1;
+
+    printf("Loop detected: %d\n", isLoop(first));
+
+    /*
+       Break the loop before calling Display()
+       or any function that expects a normal list.
+    */
+
     t2->next = NULL;
 
-    printf("%d\n", isLoop(first));
-
-    printf("Original list:\n");
+    printf("\nOriginal list:\n");
     Display(first);
 
     printf("Recursive display:\n");
@@ -568,7 +589,9 @@ int main()
 
     /*
        Remove duplicates example.
-       RemoveDuplicate() works correctly on a sorted linked list.
+
+       RemoveDuplicate() expects duplicates to be adjacent,
+       so a sorted list is used here.
     */
 
     int B[] = {
@@ -604,10 +627,10 @@ int main()
     FreeList(first);
 
     /*
-       Concatenation example
+       Concatenation example.
 
-       first was set to NULL by FreeList(), so both
-       lists must be created before calling Concat().
+       first was set to NULL by FreeList(),
+       so create both lists before calling Concat().
     */
 
     int C[] = {10, 20, 30, 40, 50};
