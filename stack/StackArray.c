@@ -48,6 +48,35 @@ int pop(struct Stack *st)
     return x;
 }
 
+int peak(struct Stack st, int index)
+{
+    int x = -1;
+    if (st.top - index + 1 < 0)
+        printf("Invalid Index\n");
+    x = st.S[st.top - index + 1];
+
+    return x;
+}
+
+int isEmpty(struct Stack st)
+{
+    if(st.top == -1)
+        return 1;
+    return 0;
+}
+
+int isFull(struct Stack st)
+{
+    return st.top == st.size -1;
+}
+
+int stackTop(struct Stack st)
+{
+    if(!isEmpty(st))
+        return st.S[st.top];
+    return -1;
+}
+
 int main()
 {
     struct Stack st;
@@ -56,8 +85,9 @@ int main()
     push(&st, 20);
     push(&st, 30);
     push(&st, 40);
-    push(&st, 50);
-    push(&st, 60);
+
+    printf("%d \n", peak(st, 2));
+  
 
     Display(st);
 
