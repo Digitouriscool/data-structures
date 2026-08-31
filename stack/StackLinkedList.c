@@ -3,11 +3,11 @@
 
 struct Node
 {
-    int data;
+    char data;
     struct Node *next;
 } *top = NULL;
 
-void push(int x)
+void push(char x)
 {
     struct Node *t;
 
@@ -25,12 +25,15 @@ void push(int x)
     }
 }
 
-int pop()
+char pop()
 {
     struct Node *t;
-    int x = -1;
+    char x = -1;
+
     if (top == NULL)
+    {
         printf("Stack is empty\n");
+    }
     else
     {
         t = top;
@@ -38,6 +41,7 @@ int pop()
         x = t->data;
         free(t);
     }
+
     return x;
 }
 
@@ -45,23 +49,46 @@ void Display()
 {
     struct Node *p;
     p = top;
-    
+
     while (p != NULL)
     {
-        printf("%d ", p->data);
+        printf("%c ", p->data);
         p = p->next;
     }
+
     printf("\n");
+}
+
+int isBalanced(char *exp)
+{
+    int i;
+
+    for (i = 0; exp[i] != '\0'; i++)
+    {
+        if (exp[i] == '(')
+        {
+            push(exp[i]);
+        }
+        else if (exp[i] == ')')
+        {
+            if (top == NULL)
+                return 0;
+
+            pop();
+        }
+    }
+
+    if (top == NULL)
+        return 1;
+    else
+        return 0;
 }
 
 int main()
 {
-    push(10);
-    push(20);
-    push(30);
+    char *exp = "((a+b)*(c-d))";
 
-    Display();
+    printf("%d\n", isBalanced(exp));
 
-    printf("%d ", pop());
     return 0;
 }
