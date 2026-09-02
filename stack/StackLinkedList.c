@@ -132,7 +132,7 @@ char * InToPost(char *infix)
 
 int main()
 {
-    char *infix = "a=b*c";
+    char *infix = "a=b*c-d/e";
     push('#');
 
     char *postfix = InToPost(infix);
