@@ -4,11 +4,11 @@
 
 struct Node
 {
-    char data;
+    int data;
     struct Node *next;
 } *top = NULL;
 
-void push(char x)
+void push(int x)
 {
     struct Node *t;
 
@@ -26,10 +26,10 @@ void push(char x)
     }
 }
 
-char pop()
+int pop()
 {
     struct Node *t;
-    char x = -1;
+    int x = -1;
 
     if (top == NULL)
     {
@@ -130,14 +130,38 @@ char * InToPost(char *infix)
     return postfix;
 }
 
+int Eval(char *postfix)
+{
+    int i = 0;
+    int x1, x2, r;
+
+    for (i = 0; postfix[i] != '\0'; i++)
+    {
+        if (isOperand(postfix[i]))
+        {
+            push(postfix[i] - '0');
+        }
+        else
+        {
+            x2 = pop(); x1 = pop();
+            switch (postfix[i])
+            {
+                case '+': r = x1 + x2; break;
+                case '-': r = x1 - x2; break;
+                case '*': r = x1 * x2; break;
+                case '/': r = x1 / x2; break;
+            }
+            push(r);
+        }
+    }
+    return top->data;
+}
+
 int main()
 {
-    char *infix = "a=b*c-d/e";
-    push('#');
-
-    char *postfix = InToPost(infix);
-
-    printf("%s ", postfix);
+    char *postfix="234*+82/-";
+    
+    printf("Result is %d\n", Eval(postfix));
 
     return 0;
 }
